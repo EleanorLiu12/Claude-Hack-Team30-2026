@@ -45,14 +45,14 @@ export function Onboarding({ onSubmit }: Props) {
         setCourse(candidate.course);
         setSeatZone(candidate.seatZone);
         setCommStyle(candidate.commStyle);
-        setMbti(candidate.mbti);
-        setHometown(candidate.hometown);
-        setLanguages(candidate.languages.join(', '));
-        setZodiac(candidate.zodiac);
-        setResumeText(candidate.resumeText);
-        setStruggle(candidate.antiResume.struggle);
-        setFailure(candidate.antiResume.failure);
-        setCuriosity(candidate.antiResume.curiosity);
+        setMbti(candidate.mbti || '');
+        setHometown(candidate.hometown || '');
+        setLanguages(candidate.languages?.join(', ') || '');
+        setZodiac(candidate.zodiac || '');
+        setResumeText(candidate.resumeText || '');
+        setStruggle(candidate.antiResume?.struggle || '');
+        setFailure(candidate.antiResume?.failure || '');
+        setCuriosity(candidate.antiResume?.curiosity || '');
       }
     }
     window.addEventListener('keydown', handleKeyDown);
