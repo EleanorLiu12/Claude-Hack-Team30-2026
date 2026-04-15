@@ -58,25 +58,41 @@ export const MOCK_CANDIDATES: CandidateProfile[] = [
 ];
 
 export function mockMatch(user: UserProfile, mode: 'similarity' | 'bridge'): MatchResult {
-  const picks = mode === 'bridge'
+  const introvert = Boolean(user.introvertMode);
+
+  const fullPicks = mode === 'bridge'
     ? [MOCK_CANDIDATES[1], MOCK_CANDIDATES[0], MOCK_CANDIDATES[2]]
     : [MOCK_CANDIDATES[0], MOCK_CANDIDATES[2], MOCK_CANDIDATES[1]];
 
-  const sharedGround = mode === 'bridge'
-    ? `You three come from different corners of ${user.course} and different corners of Wisconsin. But each of you wrote something on your anti-resume about wanting to understand people who don't think the way you do. That's the thread.`
-    : `You three have been sitting within 20 feet of each other for most of the semester. You all lean toward quieter entry points to conversation, and all three anti-resumes mention curiosity about how communities actually work.`;
+  const picks = introvert ? fullPicks.slice(0, 2) : fullPicks;
+
+  const sharedGround = introvert
+    ? (mode === 'bridge'
+        ? `Two people from different corners of ${user.course}. Each of you wrote something curious on your anti-resume about understanding people who think differently. Small overlap, real one.`
+        : `You two have been sitting within twenty feet of each other for weeks. Both of you prefer quieter entry points. Both anti-resumes mention curiosity about how communities actually work.`)
+    : (mode === 'bridge'
+        ? `You three come from different corners of ${user.course} and different corners of Wisconsin. But each of you wrote something on your anti-resume about wanting to understand people who don't think the way you do. That's the thread.`
+        : `You three have been sitting within twenty feet of each other for most of the semester. You all lean toward quieter entry points to conversation, and all three anti-resumes mention curiosity about how communities actually work.`);
 
   const isText = user.commStyle === 'text-first';
-  const introMessage = isText
-    ? `Hey — this is a soft intro from Ripple. The three of you have overlapped in ${user.course} more than you probably realized (one of you has shared the room 14 times this semester). No pressure to meet up yet. If you're up for it, trade one line on your anti-resume "curiosity" and see where it goes.`
-    : `Hi all — Ripple here. You've been sharing the back half of ${user.course} all semester. Since you all said you prefer meeting in person, try this: same row, 10 minutes after Thursday's lecture, grab coffee at the union. Bring the one thing from your anti-resume you'd actually talk about out loud.`;
+
+  let introMessage: string;
+  if (introvert) {
+    introMessage = `Hi — a quiet intro from Ripple, no rush on any of this.\n\nThe two of you have been sharing a room in ${user.course} all semester (one of you has been there fourteen times). You each wrote something honest on your anti-resume about a curiosity that does not come up in normal small talk.\n\nWhenever you want, consider trading one line on that curiosity. Reply in a day, reply in a week, or do not. No pressure either way.`;
+  } else if (isText) {
+    introMessage = `Hey — this is a soft intro from Ripple. The three of you have overlapped in ${user.course} more than you probably realized (one of you has shared the room 14 times this semester). No pressure to meet up yet. If you're up for it, trade one line on your anti-resume "curiosity" and see where it goes.`;
+  } else {
+    introMessage = `Hi all — Ripple here. You've been sharing the back half of ${user.course} all semester. Since you all said you prefer meeting in person, try this: same row, 10 minutes after Thursday's lecture, grab coffee at the union. Bring the one thing from your anti-resume you'd actually talk about out loud.`;
+  }
 
   const bridgeScore = mode === 'bridge' ? 78 : 42;
+  const depthScore = introvert ? (mode === 'bridge' ? 74 : 82) : undefined;
 
   return {
     candidates: picks,
     sharedGround,
     introMessage,
     bridgeScore,
+    depthScore,
   };
 }

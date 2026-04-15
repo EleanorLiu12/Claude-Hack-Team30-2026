@@ -47,8 +47,10 @@ export default function Page() {
     }
   }
 
+  const calm = Boolean(user?.introvertMode);
+
   return (
-    <main>
+    <main className={`min-h-screen ${calm ? 'calm' : 'ripple-bg'}`}>
       {step !== 'landing' && (
         <ApiKeyBar
           demoMode={demoMode}
@@ -59,7 +61,7 @@ export default function Page() {
 
       {step === 'landing' && <Landing onStart={() => setStep('onboarding')} />}
       {step === 'onboarding' && <Onboarding onSubmit={handleSubmit} />}
-      {step === 'loading' && <Loading />}
+      {step === 'loading' && <Loading calm={calm} />}
       {step === 'match' && user && result && (
         <>
           {error && (
@@ -86,17 +88,21 @@ export default function Page() {
   );
 }
 
-function Loading() {
+function Loading({ calm }: { calm: boolean }) {
   return (
     <section className="flex min-h-[60vh] items-center justify-center">
       <div className="text-center">
         <div className="relative mx-auto mb-6 h-16 w-16">
           <div className="ripple-anim absolute inset-0 rounded-full" />
           <div className="absolute inset-0 flex items-center justify-center">
-            <div className="h-3 w-3 rounded-full bg-ripple" />
+            <div className={`h-3 w-3 rounded-full ${calm ? 'bg-calm' : 'bg-ripple'}`} />
           </div>
         </div>
-        <div className="text-sm text-ink/60">Sending ripples through your lecture...</div>
+        <div className="text-sm text-ink/60">
+          {calm
+            ? 'Taking a moment to find the right people...'
+            : 'Sending ripples through your lecture...'}
+        </div>
       </div>
     </section>
   );

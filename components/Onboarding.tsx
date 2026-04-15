@@ -29,6 +29,7 @@ export function Onboarding({ onSubmit }: Props) {
   const [failure, setFailure] = useState('Ran for student gov, lost badly');
   const [curiosity, setCuriosity] = useState('How people from opposite sides of my home state actually talk to each other');
   const [bridgeMode, setBridgeMode] = useState<BridgeMode>('bridge');
+  const [introvertMode, setIntrovertMode] = useState<boolean>(false);
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -38,6 +39,7 @@ export function Onboarding({ onSubmit }: Props) {
       course,
       seatZone,
       commStyle,
+      introvertMode,
       mbti: mbti || undefined,
       hometown: hometown || undefined,
       languages: languages ? languages.split(',').map((s) => s.trim()).filter(Boolean) : undefined,
@@ -88,6 +90,34 @@ export function Onboarding({ onSubmit }: Props) {
             ))}
           </div>
         </Field>
+
+        <button
+          type="button"
+          onClick={() => setIntrovertMode((v) => !v)}
+          className={`flex w-full items-start gap-3 rounded-xl border px-4 py-3 text-left transition ${
+            introvertMode
+              ? 'border-calm bg-calmSoft'
+              : 'border-ink/15 bg-white hover:border-calm/60'
+          }`}
+        >
+          <span
+            className={`mt-0.5 flex h-5 w-9 shrink-0 items-center rounded-full transition ${
+              introvertMode ? 'bg-calm' : 'bg-ink/15'
+            }`}
+          >
+            <span
+              className={`h-4 w-4 rounded-full bg-white shadow transition ${
+                introvertMode ? 'translate-x-4' : 'translate-x-0.5'
+              }`}
+            />
+          </span>
+          <span>
+            <span className="block font-medium">Introvert Mode</span>
+            <span className="block text-xs text-ink/60">
+              Smaller matches, lower-stimulation pacing, an editable draft before anything goes out. You can change this anytime.
+            </span>
+          </span>
+        </button>
       </section>
 
       <section className="space-y-4 rounded-2xl border border-ink/10 bg-white p-6">

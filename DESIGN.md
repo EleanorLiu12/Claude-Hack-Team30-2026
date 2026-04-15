@@ -2,10 +2,6 @@
 
 *Small nods. Wide ripples.*
 
-## Problem
-
-50,000 people on campus. 300 in your lecture. You know none of them. Digital tools made us lonelier and more polarized, not less. We need spaces where different people actually meet.
-
 ## Concept
 
 A campus app that reveals the invisible social graph already forming around your seat, and uses Claude to gently introduce you to the people you've been sitting near — or the people most unlike you.
@@ -71,6 +67,20 @@ Cut if over time:
 - Resume PDF upload (use pasted text instead)
 - Bridge Score gamification
 - Time-locked gating (show the concept in UI, do not enforce)
+
+## Introvert Mode
+
+Informed by *The Introvert Advantage* (Marti Olsen Laney): introversion is neurological wiring, not a flaw. An introvert-friendly app cannot just change tone — it must change match size, pacing, prep time, and sensory load. Introvert Mode is a cross-cutting lens, not a third matching pillar. It is an explicit opt-in toggle, orthogonal to Bridge/Similarity mode.
+
+When Introvert Mode is ON:
+
+- **Group size** drops from 3 to 2 candidates. Smaller is less stimulating than 1:1 and much less than a trio.
+- **Weighting** shifts toward depth signals (specific curiosity overlap from the anti-resume, shared project themes, meaningful language overlap) and away from shallow ones (zodiac, loose hometown).
+- **Claude's system prompt** receives an introvert preamble: no exclamation marks, no FOMO, no cheerful urgency; prefer "consider," "whenever you want," "no rush"; for mixed introvert/extrovert pairs, gently set mutual expectations inside the intro itself.
+- **Intro is editable before sending.** The match card shows the Claude-generated draft in a textarea. A "Hold 24 hours" checkbox is a private preview affordance (v1 is UI-only; no real delivery system yet).
+- **Palette and motion soften.** The accent swaps from ripple blue to a muted sage. The ripple pulse animation pauses. The loading copy changes to "Taking a moment to find the right people..."
+- **Depth Score** appears alongside Bridge Score. Measures how substantive the overlap is.
+- **"Not this week"** appears next to "Start over" — a non-judgmental exit path. No unmatch drama in copy.
 
 ## Demo Pitch
 

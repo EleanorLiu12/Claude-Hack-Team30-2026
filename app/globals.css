@@ -36,3 +36,21 @@ body {
 .ripple-anim::after {
   animation-delay: 1.2s;
 }
+
+.calm {
+  background:
+    radial-gradient(circle at 30% 20%, rgba(126,154,135,0.10), transparent 45%),
+    radial-gradient(circle at 75% 70%, rgba(126,154,135,0.07), transparent 50%),
+    #fafaf7;
+}
+
+.calm .ripple-anim::before,
+.calm .ripple-anim::after {
+  animation: none;
+  border-color: rgba(126,154,135,0.35);
+  opacity: 0.6;
+}
+
+.calm .ripple-anim::after {
+  display: none;
+}

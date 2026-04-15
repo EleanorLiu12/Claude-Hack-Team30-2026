@@ -16,6 +16,7 @@ export interface UserProfile {
   course: string;
   seatZone: SeatZone;
   commStyle: CommStyle;
+  introvertMode?: boolean;
   mbti?: MBTI;
   hometown?: string;
   languages?: string[];
@@ -38,6 +39,7 @@ export interface MatchResult {
   sharedGround: string;
   introMessage: string;
   bridgeScore: number;
+  depthScore?: number;
 }
 
 export type BridgeMode = 'similarity' | 'bridge';
