@@ -1,8 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import type { BridgeMode, CommStyle, MBTI, SeatZone, UserProfile } from '@/lib/types';
 import { SeatGrid } from './SeatGrid';
+import { MOCK_CANDIDATES } from '@/lib/mock-data';
 
 const MBTIS: MBTI[] = [
   'INTJ','INTP','ENTJ','ENTP','INFJ','INFP','ENFJ','ENFP',
@@ -14,6 +15,7 @@ interface Props {
 }
 
 export function Onboarding({ onSubmit }: Props) {
+  const [demoIndex, setDemoIndex] = useState(0);
   const [name, setName] = useState('Alex');
   const [course, setCourse] = useState('ECON 101');
   const [seatZone, setSeatZone] = useState<SeatZone | undefined>('back-center');
@@ -30,6 +32,32 @@ export function Onboarding({ onSubmit }: Props) {
   const [curiosity, setCuriosity] = useState('How people from opposite sides of my home state actually talk to each other');
   const [bridgeMode, setBridgeMode] = useState<BridgeMode>('bridge');
   const [introvertMode, setIntrovertMode] = useState<boolean>(false);
+
+  // Keyboard shortcut to cycle through demo profiles
+  useEffect(() => {
+    function handleKeyDown(e: KeyboardEvent) {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        const nextIndex = (demoIndex + 1) % MOCK_CANDIDATES.length;
+        setDemoIndex(nextIndex);
+        const candidate = MOCK_CANDIDATES[nextIndex];
+        setName(candidate.name);
+        setCourse(candidate.course);
+        setSeatZone(candidate.seatZone);
+        setCommStyle(candidate.commStyle);
+        setMbti(candidate.mbti);
+        setHometown(candidate.hometown);
+        setLanguages(candidate.languages.join(', '));
+        setZodiac(candidate.zodiac);
+        setResumeText(candidate.resumeText);
+        setStruggle(candidate.antiResume.struggle);
+        setFailure(candidate.antiResume.failure);
+        setCuriosity(candidate.antiResume.curiosity);
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [demoIndex]);
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -55,6 +83,7 @@ export function Onboarding({ onSubmit }: Props) {
       <header>
         <h2 className="font-serif text-3xl font-semibold">Tell Ripple a little</h2>
         <p className="mt-1 text-sm text-ink/60">Only class, seat, and how you like to connect are required.</p>
+        <p className="mt-2 text-xs text-ripple/70">💡 Demo tip: Press Cmd+K (Mac) or Ctrl+K (Windows) to cycle through demo profiles</p>
       </header>
 
       <section className="space-y-4 rounded-2xl border border-ink/10 bg-white p-6">
